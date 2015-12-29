@@ -48,19 +48,39 @@ namespace TheWorld.Models
       }
     }
 
-        public Trip GetTripByName(string tripName)
+        public Trip GetTripByName(string tripName, string username)
         {
             return _context.Trips.Include(t=>t.Stops).FirstOrDefault(
-                t => string.Equals(t.Name, tripName, StringComparison.CurrentCultureIgnoreCase));
+                t => string.Equals(t.Name, tripName, StringComparison.CurrentCultureIgnoreCase)
+                && string.Equals(t.UserName, username, StringComparison.CurrentCultureIgnoreCase)
+                );
         }
 
-      public void AddStop(string tripName,Stop newStop)
+      public void AddStop(string tripName,string userName, Stop newStop)
       {
-          var theTrip = GetTripByName(tripName);
+          var theTrip = GetTripByName(tripName, userName);
           newStop.Order = theTrip.Stops.Max(s => s.Order) + 1;
           theTrip.Stops.Add(newStop);
           _context.Stops.Add(newStop);
       }
+
+      public IEnumerable<Trip> GetUserTripsWithStops(string name)
+      {
+            try
+            {
+                return _context.Trips
+                .Include(t => t.Stops)
+                .Where(u=>u.UserName == name)
+                .OrderBy(t => t.Name)
+                .ToList();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Could not get trips with stops from database", ex);
+                return null;
+            }
+
+        }
 
       public void AddTrip(Trip newTrip)
       {

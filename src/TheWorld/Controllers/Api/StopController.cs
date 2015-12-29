@@ -32,7 +32,7 @@ namespace TheWorld.Controllers.Api
         {
             try
             {
-                var results = _repository.GetTripByName(tripName);
+                var results = _repository.GetTripByName(tripName, User.Identity.Name);
                 if (results == null)
                 {
                     return Json(null);
@@ -69,7 +69,7 @@ namespace TheWorld.Controllers.Api
                     newStop.Longitude = coordResult.Longitude;
                     newStop.Latitude = coordResult.Latitude;
 
-                    _repository.AddStop(tripName,newStop);
+                    _repository.AddStop(tripName, User.Identity.Name, newStop);
                     //Save to the database
                     if (_repository.SaveAll())
                     {

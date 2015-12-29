@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNet.Authentication.Cookies;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Http;
@@ -58,8 +60,22 @@ namespace TheWorld
 
             services.ConfigureCookieAuthentication(config =>
             {
-                config.LoginPath = "/Auth/Login"; ;
+                config.LoginPath = "/Auth/Login"; 
                 config.CookieName = "TheWorldAuth";
+                config.Notifications = new CookieAuthenticationNotifications()
+                {
+                    OnApplyRedirect = ctx =>
+                    {
+                        if (ctx.Request.Path.StartsWithSegments("/api") && ctx.Response.StatusCode == 200)
+                        {
+                            ctx.Response.StatusCode = (int) HttpStatusCode.Unauthorized;
+                        }
+                        else
+                        {
+                            ctx.Response.Redirect(ctx.RedirectUri);
+                        }
+                    }
+                };
             });
 
 
