@@ -1,0 +1,66 @@
+Skip to content
+ 
+
+Search…
+All gists
+GitHub
+New gist
+@CarlosLanderas
+  Star 0
+  Fork 0
+  @zbradzbrad/.gitignore
+Last active 4 months ago
+Embed  
+<script src="https://gist.github.com/zbrad/1135e9d0bef2597f28df.js"></script>
+  Download ZIP
+ Code  Revisions 2
+AspNet5 Mvc6 .gitignore
+Raw  .gitignore
+**/[Oo]bj/**
+**/[Bb]in/**
+**/TestResults/**
+**/.nuget/**
+**/*.sln.ide/**
+**/_ReSharper.*/**
+**/packages/**
+**/artifacts/**
+**/PublishProfiles/**
+**/.vs/**
+**/bower_components/**
+**/node_modules/**
+**/wwwroot/lib/**
+
+launchSettings.json
+debugSettings.json
+project.lock.json
+*.user
+*.suo
+*.cache
+*.docstates
+_ReSharper.*
+nuget.exe
+*net45.csproj
+*net451.csproj
+*k10.csproj
+*.psess
+*.vsp
+*.pidb
+*.userprefs
+*DS_Store
+*.ncrunchsolution
+*.*sdf
+*.ipch
+.settings
+*.sln.ide
+node_modules
+**/[Cc]ompiler/[Rr]esources/**/*.js
+*~
+ @CarlosLanderas
+ Styling with Markdown is supported
+Write Preview
+
+Leave a comment
+Attach files by dragging & dropping,  Elegir archivos selecting them, or pasting from the clipboard.
+Comment
+Status API Training Shop Blog About Pricing
+© 2015 GitHub, Inc. Terms Privacy Security Contact Help
