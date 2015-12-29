@@ -5,6 +5,10 @@ using TheWorld.Services;
 using TheWorld.ViewModels;
 using System.Linq;
 using Microsoft.AspNet.Authorization;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using Microsoft.AspNet.Http;
+using Microsoft.AspNet.Identity;
 
 namespace TheWorld.Controllers.Web
 {
@@ -12,15 +16,18 @@ namespace TheWorld.Controllers.Web
     {
         private IMailService _mailService;
         private IWorldRepository _respository;
+        private UserManager<WorldUser> _userManager;
 
-        public AppController(IMailService service, IWorldRepository repository)
+        public AppController(IMailService service, IWorldRepository repository, UserManager<WorldUser> userManager )
         {
             _mailService = service;
             _respository = repository;
+            _userManager = userManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+
             return View();
         }
 

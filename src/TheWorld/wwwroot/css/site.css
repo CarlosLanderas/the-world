@@ -89,3 +89,7 @@ input[type=text], input[type=password], textarea {
     -webkit-transition: margin-left ease .25s;
     transition: margin-left ease .25s;
   }
+
+  .waitcursor.fa, .waitcursor.f-spin {
+      color: forestgreen;
+  }

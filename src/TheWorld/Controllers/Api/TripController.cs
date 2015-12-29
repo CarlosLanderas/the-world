@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNet.Authorization;
@@ -29,6 +30,7 @@ namespace TheWorld.Controllers.Api
         [HttpGet]
         public JsonResult Get()
         {
+            Thread.Sleep(2000);
             var trips = _worldRepository.GetUserTripsWithStops(User.Identity.Name);
             return Json(Mapper.Map<IEnumerable<TripViewModel>>(trips));
         }

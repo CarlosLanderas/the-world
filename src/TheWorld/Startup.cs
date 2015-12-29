@@ -50,6 +50,8 @@ namespace TheWorld
                 opt.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             });
 
+            services.AddSession();
+            services.AddCaching();
             services.AddLogging();
             services.AddIdentity<WorldUser, IdentityRole>(config =>
             {
@@ -78,7 +80,7 @@ namespace TheWorld
                 };
             });
 
-
+            
             services.AddEntityFramework()
               .AddSqlServer()
               .AddDbContext<WorldContext>();
@@ -87,6 +89,7 @@ namespace TheWorld
             services.AddTransient<WorldContextSeedData>();
             services.AddScoped<IWorldRepository, WorldRepository>();
             services.AddScoped<ICoordService, CoordService>();
+            services.AddScoped<IProfileService, DefaultProfileService>();
 
 #if DEBUG
             services.AddScoped<IMailService, DebugMailService>();
@@ -100,7 +103,8 @@ namespace TheWorld
             loggerFactory.AddDebug(LogLevel.Warning);
 
             app.UseStaticFiles();
-
+            app.UseSession();
+            
             app.UseIdentity();
 
             Mapper.Initialize(config =>
@@ -117,7 +121,7 @@ namespace TheWorld
             defaults: new { controller = "App", action = "Index" }
             );
             });
-
+            
             await seeder.EnsureSeedDataAsync();
         }
     }
