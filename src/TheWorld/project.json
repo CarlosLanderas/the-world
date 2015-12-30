@@ -16,7 +16,8 @@
     "AutoMapper": "4.0.4",
     "System.Net.Http": "4.0.1-beta-23225",
     "Microsoft.AspNet.Identity.EntityFramework": "3.0.0-beta7",
-    "Microsoft.AspNet.Session": "1.0.0-beta7"
+    "Microsoft.AspNet.Session": "1.0.0-beta7",
+    "Microsoft.AspNet.Diagnostics": "1.0.0-beta7"
   },
 
   "commands": {
@@ -40,5 +41,10 @@
     "wwwroot",
     "node_modules",
     "bower_components"
-  ]
+  ],
+
+  "scripts": {
+    "prepublish": [ "npm install", "bower install" ],
+    "prepare": "gulp minify"
+  }
 }

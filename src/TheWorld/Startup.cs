@@ -43,7 +43,7 @@ namespace TheWorld
             {
                 if (_hostingEnvironment.IsProduction())
                 {
-                    config.Filters.Add(new RequireHttpsAttribute());
+                   // config.Filters.Add(new RequireHttpsAttribute());
                 }
             })
             .AddJsonOptions(opt =>
@@ -96,13 +96,22 @@ namespace TheWorld
 #if DEBUG
             services.AddScoped<IMailService, DebugMailService>();
 #else
-      services.AddScoped<IMailService, MailService>();
+    //  services.AddScoped<IMailService, MailService>();
 #endif
         }
 
         public async void Configure(IApplicationBuilder app, WorldContextSeedData seeder, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddDebug(LogLevel.Warning);
+
+            if (_hostingEnvironment.IsDevelopment())
+            {
+                loggerFactory.AddDebug(LogLevel.Information);
+                app.UseErrorPage();
+            }
+            else
+            {
+                loggerFactory.AddDebug(LogLevel.Debug);
+            }
 
             app.UseStaticFiles();
             app.UseSession();
