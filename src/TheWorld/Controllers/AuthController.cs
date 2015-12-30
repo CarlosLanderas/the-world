@@ -47,12 +47,11 @@ namespace TheWorld.Controllers
                 var signInResult = await _signInManager.PasswordSignInAsync(vm.Username, vm.Password, true, false);
                 if (signInResult.Succeeded)
                 {
+                    //var user = await _userManager.FindByNameAsync(vm.Username);
+                    //Context.Session.SetString("useremail", user.Email);
 
-                    var user = await _userManager.FindByNameAsync(vm.Username);
-                    Context.Session.SetString("useremail", user.Email);
-
-                    var userImage = await _profileService.GetBase64UserProfileImage(user.Email);
-                    Context.Session.SetString("userimage", $"data:image/gif;base64,{userImage}");
+                    //var userImage = await _profileService.GetBase64UserProfileImage(user.Email);
+                    //Context.Session.SetString("userimage", $"data:image/gif;base64,{userImage}");
                     
                     if (string.IsNullOrWhiteSpace(returnUrl))
                     {

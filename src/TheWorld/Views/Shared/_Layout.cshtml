@@ -18,14 +18,15 @@
     <div id="sidebar">
         @if (User.Identity.IsAuthenticated)
         {
+
             @*<img src="~/img/user1.jpg" alt="headshot" class="headshot" />*@
             <div class="row text-center">
                 <div class="col-md-12">
-                    <img src="@Context.Session.GetString("userimage")"/>
-                    <span id="username">@User.Identity.Name</span>
+                    @await Component.InvokeAsync("UserProfileView")
                 </div>
             </div>
-            
+
+
         }
 
         <ul class="nav">

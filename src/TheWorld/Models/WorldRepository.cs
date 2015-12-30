@@ -8,69 +8,71 @@ using TheWorld.Controllers.Api;
 
 namespace TheWorld.Models
 {
-  public class WorldRepository : IWorldRepository
-  {
-    private WorldContext _context;
-    private ILogger<WorldRepository> _logger;
-
-    public WorldRepository(WorldContext context, ILogger<WorldRepository> logger)
+    public class WorldRepository : IWorldRepository
     {
-      _context = context;
-      _logger = logger;
-    }
+        private WorldContext _context;
+        private ILogger<WorldRepository> _logger;
 
-    public IEnumerable<Trip> GetAllTrips()
-    {
-      try
-      {
-        return _context.Trips.OrderBy(t => t.Name).ToList();
-      }
-      catch (Exception ex)
-      {
-        _logger.LogError("Could not get trips from database", ex);
-        return null;
-      }
-    }
+        public WorldRepository(WorldContext context, ILogger<WorldRepository> logger)
+        {
+            _context = context;
+            _logger = logger;
+        }
 
-    public IEnumerable<Trip> GetAllTripsWithStops()
-    {
-      try
-      {
-        return _context.Trips
-        .Include(t => t.Stops)
-        .OrderBy(t => t.Name)
-        .ToList();
-      }
-      catch (Exception ex)
-      {
-        _logger.LogError("Could not get trips with stops from database", ex);
-        return null;
-      }
-    }
+        public IEnumerable<Trip> GetAllTrips()
+        {
+            try
+            {
+                return _context.Trips.OrderBy(t => t.Name).ToList();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Could not get trips from database", ex);
+                return null;
+            }
+        }
+
+        public IEnumerable<Trip> GetAllTripsWithStops()
+        {
+            try
+            {
+                return _context.Trips
+                .Include(t => t.Stops)
+                .OrderBy(t => t.Name)
+                .ToList();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Could not get trips with stops from database", ex);
+                return null;
+            }
+        }
 
         public Trip GetTripByName(string tripName, string username)
         {
-            return _context.Trips.Include(t=>t.Stops).FirstOrDefault(
+            return _context.Trips.Include(t => t.Stops).FirstOrDefault(
                 t => string.Equals(t.Name, tripName, StringComparison.CurrentCultureIgnoreCase)
                 && string.Equals(t.UserName, username, StringComparison.CurrentCultureIgnoreCase)
                 );
         }
 
-      public void AddStop(string tripName,string userName, Stop newStop)
-      {
-          var theTrip = GetTripByName(tripName, userName);
-          newStop.Order = theTrip.Stops.Max(s => s.Order) + 1;
-          theTrip.Stops.Add(newStop);
-          _context.Stops.Add(newStop);
-      }
+        public void AddStop(string tripName, string userName, Stop newStop)
+        {
+            var theTrip = GetTripByName(tripName, userName);
 
-      public IEnumerable<Trip> GetUserTripsWithStops(string name)
-      {
+            var order = theTrip.Stops.Any() ? theTrip.Stops.Max(s => s.Order) + 1 : 1;
+            newStop.Order = order;
+            theTrip.Stops.Add(newStop);
+            _context.Stops.Add(newStop);
+        }
+
+        public IEnumerable<Trip> GetUserTripsWithStops(string name)
+        {
             try
             {
                 return _context.Trips
                 .Include(t => t.Stops)
-                .Where(u=>u.UserName == name)
+                .Where(u => u.UserName == name)
                 .OrderBy(t => t.Name)
                 .ToList();
             }
@@ -82,16 +84,16 @@ namespace TheWorld.Models
 
         }
 
-      public void AddTrip(Trip newTrip)
-      {
-          _context.Add(newTrip);
-      }
+        public void AddTrip(Trip newTrip)
+        {
+            _context.Add(newTrip);
+        }
 
-      public bool SaveAll()
-      {
-          return  _context.SaveChanges() >0;
-      }
+        public bool SaveAll()
+        {
+            return _context.SaveChanges() > 0;
+        }
 
-      
-  }
+
+    }
 }

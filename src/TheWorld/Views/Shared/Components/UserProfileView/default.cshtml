@@ -1,0 +1,19 @@
+﻿@using System.Threading.Tasks
+@using TheWorld.ViewModels
+@model TheWorld.ViewModels.UserProfileViewModel
+
+<cache vary-by-user="true" expires-after="@TimeSpan.FromMinutes(10)">
+    <div class="row text-center">
+        <div class="col-md-12">
+            <img width="80" height="80" src="data:image/gif;base64,@Model.Base64Image"/>
+            <span class="text-muted">Last updated: @DateTime.Now.ToLongTimeString()</span>        
+        </div>
+    </div>
+
+</cache>
+<div class="row text-center">
+    <div class="col-md-12">
+        <span id="username">@Model.UserName</span>
+    </div>
+</div>
+    

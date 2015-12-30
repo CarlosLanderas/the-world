@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Mvc;
 using Microsoft.Data.Entity.Infrastructure;
 using Microsoft.Dnx.Runtime;
+using Microsoft.Framework.Caching.Memory;
 using Microsoft.Framework.Configuration;
 using Microsoft.Framework.DependencyInjection;
 using Microsoft.Framework.Logging;
@@ -90,6 +91,7 @@ namespace TheWorld
             services.AddScoped<IWorldRepository, WorldRepository>();
             services.AddScoped<ICoordService, CoordService>();
             services.AddScoped<IProfileService, DefaultProfileService>();
+            services.AddSingleton<IMemoryCache, MemoryCache>();
 
 #if DEBUG
             services.AddScoped<IMailService, DebugMailService>();
