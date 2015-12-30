@@ -8,7 +8,7 @@ using TheWorld.Models;
 using TheWorld.Services;
 using TheWorld.ViewModels;
 
-namespace TheWorld
+namespace TheWorld.ViewComponents
 {
     [ViewComponent(Name = "UserProfileView")]
     public class UserProfileViewComponent : ViewComponent
